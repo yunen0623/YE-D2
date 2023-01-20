@@ -11,7 +11,7 @@ namespace ST_7735
     {
         tft_.setTextWrap(false);
         tft_.initR(INITR_144GREENTAB);
-        tft_.fillScreen(ST7735_WHITE);  //填滿黑色
+        tft_.fillScreen(ST7735_BLACK);  //填滿黑色
         tft_.setRotation(rotation);  //螢幕轉向
 //        tft_.setFont(&FreeSerif12pt7b);  //字型
     }
@@ -35,23 +35,42 @@ namespace ST_7735
         tft_.print(str);
     }
 
-    void ST_Display::ST_display_time_and_weather_mode(struct tm &time_info)
+    void ST_Display::ST_display_time_and_weather_mode(struct tm &time_info , bool is_con)
     {
-        tft_.setTextColor(ST7735_BLACK, ST7735_WHITE);
-//        tft_.fillScreen(ST7735_BLACK);  //填滿黑色 , 不要用填滿的方式清除畫面
-        tft_.drawFastHLine(0,20,128,ST7735_BLACK);
-        tft_.drawFastHLine(0,21,128,ST7735_BLACK);
-        tft_.drawFastHLine(0,22,128,ST7735_BLACK);
-//        tft_.drawFastHLine(0,53,128,ST7735_BLACK);
-        tft_.setTextSize(0.5);
-        tft_.setCursor(35, 7); 
-        tft_.print(&time_info  ,"%F");
-        tft_.setTextSize(2);
-        tft_.setTextColor(ST7735_BLUE, ST7735_WHITE);
-        tft_.setCursor(26, 35);
-        tft_.print(&time_info  ,"%T");
-//        tft_.setCursor(0, 80);
-//        tft_.drawBitmap(16,16,gImage_clock , 128,128,1);
+        if(is_con == true)
+        {
+          ST_Display::ST_display_RGBimage(5 ,35 , 16 , 16 ,clock_img);
+          ST_Display::ST_display_RGBimage(11 ,2 , 16 , 16 ,date_img);
+          ST_Display::ST_display_RGBimage(100 ,2 , 16 , 16 ,wifi_img);
+          tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+          tft_.drawFastHLine(0,20,128,ST7735_WHITE);
+          tft_.drawFastHLine(0,21,128,ST7735_WHITE);
+          tft_.drawFastHLine(0,22,128,ST7735_WHITE);
+          tft_.setTextSize(0.5);
+          tft_.setCursor(35, 7); 
+          tft_.print(&time_info  ,"%F");
+          tft_.setTextSize(2);
+          tft_.setTextColor(ST7735_ORANGE, ST7735_BLACK);
+          tft_.setCursor(26, 35);
+          tft_.print(&time_info  ,"%T");
+        }
+        else
+        {
+          ST_Display::ST_display_RGBimage(5 ,35 , 16 , 16 ,clock_img);
+          ST_Display::ST_display_RGBimage(11 ,2 , 16 , 16 ,date_img);
+          ST_Display::ST_display_RGBimage(100 ,2 , 16 , 16 ,wifi_off_img);
+          tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+          tft_.drawFastHLine(0,20,128,ST7735_WHITE);
+          tft_.drawFastHLine(0,21,128,ST7735_WHITE);
+          tft_.drawFastHLine(0,22,128,ST7735_WHITE);
+          tft_.setTextSize(0.5);
+          tft_.setCursor(35, 7); 
+          tft_.print("No connect to Wifi!");
+          tft_.setTextSize(2);
+          tft_.setTextColor(ST7735_ORANGE, ST7735_BLACK);
+          tft_.setCursor(26, 35);
+          tft_.print("No connect to Wifi!");
+        }
     }
     //x ,y is St7735 xy , h and w is for image
     void ST_Display::ST_display_RGBimage(int x , int y,int h ,int w ,const unsigned char *img)

@@ -6,6 +6,8 @@ namespace dateandtime
   class dateandtime
   {
     public:
+      bool get_timeout_flag() {return wc.get_is_timeout();}
+      bool get_connect_flag() {return wc.get_is_connect();}
       struct tm timeinfo_;
       dateandtime(){};
       ~dateandtime(){};

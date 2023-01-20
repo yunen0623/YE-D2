@@ -18,7 +18,7 @@ namespace ST_7735
       void ST_display_time();
       void ST_display_Weather();
       void ST_display_eye_icon(); 
-      void ST_display_time_and_weather_mode(struct tm &time_info);
+      void ST_display_time_and_weather_mode(struct tm &time_info , bool is_con);
       void ST_display_RGBimage(int x , int y,int h ,int w ,const unsigned char *img);
       
     private:
