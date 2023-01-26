@@ -22,7 +22,7 @@ namespace hw_wifi
           const char *password_ = "0912222363"; 
          
           const char *homessid_ = "MY HOME";    
-          const char *homepassword_ = "0932326831"; 
+          const char *homepassword_ = "0932326831";
           
           const char *canpanyssid_ = "USUN_NEWGuest";    
           const char *canpanypassword_ = "Usun3498"; 

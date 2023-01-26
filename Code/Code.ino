@@ -5,8 +5,8 @@ dateandtime::dateandtime dt;
 
 void setup() {
   Serial.begin(9600);
-  dt.get_date_time();
   st_display.ST_Init(1);
+  dt.get_date_time();
 }
 
 void loop() {

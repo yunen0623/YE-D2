@@ -13,6 +13,8 @@ namespace ST_7735
         tft_.initR(INITR_144GREENTAB);
         tft_.fillScreen(ST7735_BLACK);  //填滿黑色
         tft_.setRotation(rotation);  //螢幕轉向
+//        tft_.setCursor(2 , 40);
+//        tft_.println("Try to search  Wifi");
 //        tft_.setFont(&FreeSerif12pt7b);  //字型
     }
 
@@ -65,11 +67,11 @@ namespace ST_7735
           tft_.drawFastHLine(0,22,128,ST7735_WHITE);
           tft_.setTextSize(0.5);
           tft_.setCursor(35, 7); 
-          tft_.print("No connect to Wifi!");
+          tft_.print("No Wifi!");
           tft_.setTextSize(2);
           tft_.setTextColor(ST7735_ORANGE, ST7735_BLACK);
           tft_.setCursor(26, 35);
-          tft_.print("No connect to Wifi!");
+          tft_.print("No Wifi!");
         }
     }
     //x ,y is St7735 xy , h and w is for image
