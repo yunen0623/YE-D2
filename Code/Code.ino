@@ -12,5 +12,6 @@ void setup() {
 void loop() {
   dt.update_time();
   st_display.ST_display_time_and_weather_mode(dt.timeinfo_ , dt.get_connect_flag());
-//  st_display.ST_display_RGBimage(5 ,35 , 16 , 16 ,clock_img);
+  dt.get_weather();
+  st_display.ST_display_Weather(dt.temp , dt.h ,dt.weather);
 }

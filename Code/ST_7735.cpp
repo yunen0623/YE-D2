@@ -89,4 +89,35 @@ namespace ST_7735
           } 
         }
     }
+
+    void ST_Display::ST_display_Weather(String t , String h ,String w)
+    {
+        String t_ = t;
+        String w_ = w;
+        t_.remove(2,3);
+        
+        
+        tft_.drawFastHLine(0,62,128,ST7735_WHITE);
+        tft_.drawFastHLine(0,63,128,ST7735_WHITE);
+//        tft_.drawFastVLine(60,63,65,ST7735_WHITE);
+//        tft_.drawFastVLine(59,63,65,ST7735_WHITE);
+        tft_.setTextSize(2);
+        tft_.setCursor(65, 75);
+        tft_.setTextColor(ST7735_BLUE, ST7735_BLACK);
+        tft_.print("T:" + t_ + "C");
+        tft_.setCursor(65, 100);
+        tft_.setTextColor(ST7735_BLUE, ST7735_BLACK);
+        tft_.print("H:" + h + "%");
+
+        if(w == "\"Clouds\"")
+          ST_Display::ST_display_RGBimage(2 ,65 , 60 , 60 ,could_img);
+        else if (w == "\"Thunderstorm\"")
+          ST_Display::ST_display_RGBimage(2 ,65 , 60 , 60 ,thunderstorm_img);
+        else if (w == "\"Drizzle\"" || w == "\"Rain\"" )
+          ST_Display::ST_display_RGBimage(2 ,65 , 60 , 60 ,rain_img);
+        else if (w == "\"Snow\"")
+          ST_Display::ST_display_RGBimage(2 ,65 , 60 , 60 ,snow_img);
+        else if (w == "\"Clear\"")
+          ST_Display::ST_display_RGBimage(2 ,65 , 60 , 60 ,clear_img);
+    }
 }
