@@ -4,8 +4,11 @@
 #include <Fonts/FreeSerif12pt7b.h>
 #include <Fonts/FreeSansBold9pt7b.h>
 #include <Fonts/FreeSans9pt7b.h>
+#include <Fonts/Org_01.h>
+#include <Fonts/FreeMonoBold9pt7b.h>
 #include <SPI.h>
 #include <Arduino.h>
+//#include <Arduino_JSON.h>
 #include "image.h"
 namespace ST_7735
 {
@@ -16,7 +19,7 @@ namespace ST_7735
       void ST_Init(int rotation);
       void ST_Printtxt(String str , uint16_t color , int x, int y);
       void ST_display_time();
-      void ST_display_Weather();
+      void ST_display_Weather(String t , String h ,String w);
       void ST_display_eye_icon(); 
       void ST_display_time_and_weather_mode(struct tm &time_info , bool is_con);
       void ST_display_RGBimage(int x , int y,int h ,int w ,const unsigned char *img);
