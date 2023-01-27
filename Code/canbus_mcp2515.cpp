@@ -10,9 +10,10 @@ namespace mcp_2515
     
   }
   
-  
-  /* init MCP2515 to set bitrate
-   * @parm: bitrate_mode 
+  /**
+   * @brief 
+   * 
+   * @param bitrate_mode 
    */
   void mcp_2515_base::mcp_2515_init(int bitrate_mode)
   {
@@ -58,10 +59,27 @@ namespace mcp_2515
       }
       
   }
-  //change MCP2515 Mode
-  /*
-   * @parm:
-   * 0 : config mode can set id , filter ....
+
+ /**
+  * @brief 
+  * 
+  * @param type 0 : STD 1: EXT
+  * @param can_id_  11bits / 29bits
+  */
+  void mcp_2515_base::mcp_2515_set_idtype(int type , canid_t can_id_)
+  {
+      if (type == 0)
+        frame.can_id = can_id_;
+      else 
+        frame.can_id = can_id_ | CAN_EFF_FLAG;
+  }
+
+
+  /**
+   * @brief 
+   * 
+   * @param mode_ 
+   *  0 : config mode can set id , filter ....
    * 1 : need another can controller and reveiver
    * 2 : can send ande receive msg with self
    * 3 : only listen another MCP215 msg

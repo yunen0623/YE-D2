@@ -11,7 +11,7 @@ namespace mcp_2515
       mcp_2515_base();
       ~mcp_2515_base(){delete hspi;};
       void mcp_2515_init(int bitrate_mode);
-      void mcp_2515_set_idtype()
+      void mcp_2515_set_idtype(int type , canid_t can_id_);
       void mcp_2515_changemode(int mode_);
 
       
