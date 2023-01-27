@@ -72,6 +72,13 @@ namespace ST_7735
           tft_.setTextColor(ST7735_ORANGE, ST7735_BLACK);
           tft_.setCursor(26, 35);
           tft_.print("No Wifi!");
+          tft_.setTextSize(2);
+          tft_.setCursor(65, 75);
+          tft_.setTextColor(ST7735_BLUE, ST7735_BLACK);
+          tft_.print("No Wifi!");
+          tft_.setCursor(65, 100);
+          tft_.setTextColor(ST7735_BLUE, ST7735_BLACK);
+          tft_.print("No Wifi!");
         }
     }
     //x ,y is St7735 xy , h and w is for image
@@ -99,8 +106,6 @@ namespace ST_7735
         
         tft_.drawFastHLine(0,62,128,ST7735_WHITE);
         tft_.drawFastHLine(0,63,128,ST7735_WHITE);
-//        tft_.drawFastVLine(60,63,65,ST7735_WHITE);
-//        tft_.drawFastVLine(59,63,65,ST7735_WHITE);
         tft_.setTextSize(2);
         tft_.setCursor(65, 75);
         tft_.setTextColor(ST7735_BLUE, ST7735_BLACK);

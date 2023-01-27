@@ -4,6 +4,8 @@
 #include <Fonts/FreeSerif12pt7b.h>
 #include <Fonts/FreeSansBold9pt7b.h>
 #include <Fonts/FreeSans9pt7b.h>
+#include <Fonts/Org_01.h>
+#include <Fonts/FreeMonoBold9pt7b.h>
 #include <SPI.h>
 #include <Arduino.h>
 //#include <Arduino_JSON.h>
