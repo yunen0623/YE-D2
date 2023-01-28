@@ -19,7 +19,7 @@ namespace dateandtime
     void dateandtime::update_time()
     {
         getLocalTime(&timeinfo_);
-        Serial.println(&timeinfo_, "%F %T");
+//        Serial.println(&timeinfo_, "%F %T");
     }
 
     void dateandtime::use_rtc_time()
@@ -77,8 +77,8 @@ namespace dateandtime
       String payload = "{}"; 
       
       if (httpResponseCode>0) {
-        Serial.print("HTTP Response code: ");
-        Serial.println(httpResponseCode);
+//        Serial.print("HTTP Response code: ");
+//        Serial.println(httpResponseCode);
         payload = http.getString();
       }
       else {

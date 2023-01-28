@@ -33,7 +33,7 @@ namespace dateandtime
       const int daylightOffset_sec_ = 0;
       bool is_get_time_ = false;
       bool is_get_weather_ = false;
-      String city_ = "Taipei";
+      String city_ = "Taoyuan";
       String countryCode_ = "TW";
       String bufferforJSON_;
       String openweatherkey_ = "fadeb6864879b82d2a7b2ce0717b565f" ; 
