@@ -129,7 +129,7 @@ void mcp_2515_base::mcp_2515_changemode(int mode_)
    @param s
    @return uint32_t  convert result
 */
-uint32_t mcp_2515_base::convertStrtoLong(char *s)
+uint32_t mcp_2515_base::convertStrtoLong(const char *s)
 {
   uint32_t x = 0;
   for (;;) {
