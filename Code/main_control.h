@@ -1,8 +1,8 @@
 #include "stdint.h"
 #include "Arduino.h"
 #include "canbus_mcp2515.h"
-
-
+#include "ST_7735.h"
+#include "date_time.h"
 namespace control 
 {
   enum class ALL_MODE  //main menu
@@ -43,6 +43,8 @@ namespace control
         uint32_t set_filtermask_btn();
         uint32_t set_canidandtype_btn();
         void set_canmode_btn(int &modee);
+        void core_init();
+        
       private:
         const int upbtn_ =  27;
         const int downbtn_ = 26 ;
@@ -54,14 +56,14 @@ namespace control
         ALL_MODE allmode_;
         SUB_CAN_MODE subcanmode_;
         CAN_Mointor_Func canmointorfunc_;
-        
+        /**here is about control**/
         int updown_count_ , leftright_count_ = -1 ; //btn  count
         bool is_click_mid_ = false;
+
+        /**here is  about can frame**/
         int can_mode_ = -1; //MCP2515模式 0 1 2 3     
         int can_type_choose = -1; //choose std or ext type
         int setting_ok_ = 0; //check type , id / filter , mask is setting ok 
-
-        bool set_id_type = false; //false:std true : ext 
         uint8_t default_data[8]= {1,2,3,4,5,6,7,8};
         bool is_ext_type_ = false;  
         int dlc_ = 8;
@@ -72,9 +74,10 @@ namespace control
         uint32_t set_mask_id_ = 0x0000;
         
         mcp_2515::mcp_2515_base mcp_;
-
-        String temp_;//放佔存的char
-        struct can_frame frame_rece_; //讀取用的frame
+        ST_7735::ST_Display st_display;
+        dateandtime::dateandtime dt;
+        String temp_;
+        struct can_frame frame_rece_; //for read candata frame
         const String hexstr[16] = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
         
               

@@ -12,8 +12,15 @@ namespace control
       pinMode(controller::midbtn_, INPUT_PULLUP);
       pinMode(controller::setbtn_, INPUT_PULLUP);
       pinMode(controller::resetbtn_, INPUT_PULLUP);
+      
     }
 
+    void controller::core_init()
+    {
+      dt.get_date_time();
+      st_display.ST_Init(1);
+    }
+    
     void controller::read_controller_single()
     {
       //mid
@@ -71,7 +78,8 @@ namespace control
         {
           res_str = str1 + str2 + str3 +str4 ;
           const char *cstr =  res_str.c_str();   
-          controller::mcp_.mcp_2515_set_Mask(MCP2515::MASK0 , is_ext_type_ , controller::mcp_.convertStrtoLong(cstr));         
+          controller::mcp_.mcp_2515_set_Mask(MCP2515::MASK0 , is_ext_type_ , controller::mcp_.convertStrtoLong(cstr));
+          controller::set_mask_id_ = controller::mcp_.convertStrtoLong(cstr);                   
           setting_ok_++;
           break;          
         } 
@@ -91,7 +99,8 @@ namespace control
         {
           res_str = str1 + str2 + str3 +str4 ;
           const char *cstr =  res_str.c_str();   
-          controller::mcp_.mcp_2515_set_Filter(MCP2515::RXF0 ,is_ext_type_ , controller::mcp_.convertStrtoLong(cstr));          
+          controller::mcp_.mcp_2515_set_Filter(MCP2515::RXF0 ,is_ext_type_ , controller::mcp_.convertStrtoLong(cstr));
+          controller::set_filter_id_ = controller::mcp_.convertStrtoLong(cstr);            
           setting_ok_ = 0;
           controller::subcanmode_ = SUB_CAN_MODE::can_None; 
           break;         
@@ -138,7 +147,8 @@ namespace control
         {        
           res_str = str1 + str2 + str3 +str4 ;
           const char *cstr =  res_str.c_str();           
-          controller::mcp_.mcp_2515_set_canframe(type , controller::mcp_.convertStrtoLong(cstr) , 8 , default_data );         
+          controller::mcp_.mcp_2515_set_canframe(type , controller::mcp_.convertStrtoLong(cstr) , 8 , default_data );
+          controller::set_can_id_ = controller::mcp_.convertStrtoLong(cstr);
           setting_ok_ = 0;
           controller::subcanmode_ = SUB_CAN_MODE::can_None; 
           break;        
@@ -156,17 +166,26 @@ namespace control
         controller::subcanmode_ = SUB_CAN_MODE::can_None;         
       }
     }
-
+    //////////應該在按下click後先清畫面再顯示////////////////////
     void controller::core_controller()
     {
       controller::read_controller_single();
       switch(controller::allmode_)
       {
         case ALL_MODE::ds_clock :
+          dt.update_time();
+          st_display.ST_display_time_and_weather_mode(dt.timeinfo_ , dt.get_connect_flag());
+          dt.get_weather();
+          st_display.ST_display_Weather(dt.temp , dt.h ,dt.weather);
+          if(controller::is_click_mid_ == true)
+            controller::allmode_ = ALL_MODE::ds_menu;          
+        break;
+                
         case ALL_MODE::ds_None :
           if(controller::is_click_mid_ == true)
             controller::allmode_ = ALL_MODE::ds_menu;          
         break;
+        
         case ALL_MODE::ds_menu:
           if(controller::updown_count_ == 0)
           {
@@ -205,7 +224,8 @@ namespace control
           else if(controller::updown_count_ == 3 && controller::is_click_mid_ == true && controller::subcanmode_ == SUB_CAN_MODE::can_None)
           {
             controller::subcanmode_ = SUB_CAN_MODE::can_Monitor;
-            controller::updown_count_ = -1;                          
+            controller::updown_count_ = -1;
+            controller::leftright_count_ = -1;                          
           }
 
           switch(controller::subcanmode_)
@@ -220,8 +240,18 @@ namespace control
               controller::set_canmode_btn(can_mode_);
               break;          
             case SUB_CAN_MODE::can_Monitor:
-
-            break;
+              frame_rece_ = controller::mcp_.mcp_2515_rececanframe();  //always receive message
+              if(leftright_count_ == 0 && is_click_mid_ == true)  //send message
+              {
+                controller::mcp_.mcp_2515_sendcanframe();                                     
+              }
+              else if(leftright_count_ == 1 && is_click_mid_ == true) //back to menu
+              {                                    
+                updown_count_ = -1 ;                
+                leftright_count_ = -1;
+                controller::subcanmode_ = SUB_CAN_MODE::can_None;
+              }                                            
+              break;
           }
         break;
       }

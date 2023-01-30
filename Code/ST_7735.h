@@ -1,3 +1,4 @@
+#include "WString.h"
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7735.h>
 #include <Adafruit_ST7789.h>
@@ -23,7 +24,10 @@ namespace ST_7735
       void ST_display_eye_icon(); 
       void ST_display_time_and_weather_mode(struct tm &time_info , bool is_con);
       void ST_display_RGBimage(int x , int y,int h ,int w ,const unsigned char *img);
-      
+      void ST_display_menu(int &menu_index);
+      void ST_display_cansubmenu(int &menu_index);
+      void ST_display_cannonitor(int &menu_index , String can_id , String dlc , uint8_t *can_data , String can_filter , String can_mask);
+      void ST_display_clear();
     private:
       const int ST_SDA_ = 23;  //MOSI 13
       const int ST_SCK_ = 18;  //CLK 14
