@@ -64,20 +64,20 @@ namespace control
         int can_mode_ = -1; //MCP2515模式 0 1 2 3     
         int can_type_choose = -1; //choose std or ext type
         int setting_ok_ = 0; //check type , id / filter , mask is setting ok 
-        uint8_t default_data[8]= {1,2,3,4,5,6,7,8};
+        uint8_t default_data[8]= {8,7,6,5,3,1,7,8};
         bool is_ext_type_ = false;  
         int dlc_ = 8;
         MCP2515::RXF rxfid_;
         MCP2515::MASK maskid_;
-        uint32_t set_can_id_ = 0x0000;
+
         uint32_t set_filter_id_ = 0x0000;
         uint32_t set_mask_id_ = 0x0000;
         
         mcp_2515::mcp_2515_base mcp_;
         ST_7735::ST_Display st_display;
         dateandtime::dateandtime dt;
-        String temp_;
-        struct can_frame frame_rece_; //for read candata frame
+        String temp_[4] = {"0","0","0","0"};
+        struct can_frame frame_rece_; //for read candata frame            
         const String hexstr[16] = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
         
               

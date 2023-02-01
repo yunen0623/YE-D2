@@ -141,7 +141,7 @@ namespace ST_7735
       tft_.setTextSize(2);
       tft_.setCursor(10, 5);
       tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);
-      tft_.print("> Clock");
+      tft_.print("  Clock");
       tft_.setCursor(10, 25);
       tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
       tft_.print("  CanBus");       
@@ -187,7 +187,7 @@ namespace ST_7735
         tft_.setTextSize(2);
         tft_.setCursor(10, 5);
         tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);
-        tft_.print("> SetCANID");
+        tft_.print("  SetCANID");
         tft_.setCursor(10, 25);
         tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
         tft_.print("  Set F/M");
@@ -384,4 +384,642 @@ namespace ST_7735
       delay(200);  
     }    
   }
+
+  void ST_Display::ST_display_setcanid(int click_count , int leri_count,bool is_ext_ty , String *canid_str)
+  {
+    tft_.drawFastHLine(22,85,78,ST7735_WHITE);
+    tft_.drawFastHLine(22,105,78,ST7735_WHITE);
+    tft_.drawFastVLine(22,85,20,ST7735_WHITE);
+    tft_.drawFastVLine(42,85,20,ST7735_WHITE);
+    tft_.drawFastVLine(62,85,20,ST7735_WHITE);
+    tft_.drawFastVLine(82,85,20,ST7735_WHITE);
+    tft_.drawFastVLine(100,85,20,ST7735_WHITE);
+    
+    tft_.drawFastHLine(0,23,128,ST7735_WHITE);
+    tft_.drawFastHLine(0,24,128,ST7735_WHITE);
+    tft_.setTextSize(2);        
+    tft_.setCursor(27,3);
+    tft_.setTextColor(ST77XX_WHITE);
+    tft_.print("ID type");
+    tft_.drawFastHLine(0,50,128,ST7735_WHITE);
+    tft_.drawFastHLine(0,51,128,ST7735_WHITE);
+    tft_.drawFastHLine(0,74,128,ST7735_WHITE);
+    tft_.drawFastHLine(0,75,128,ST7735_WHITE);
+    tft_.setTextSize(2);        
+    tft_.setCursor(25,56);
+    tft_.setTextColor(ST77XX_WHITE);
+    tft_.print("CAN ID");
+    if(click_count == 0)
+    {
+      tft_.setCursor(28,88);
+      tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+      tft_.print(canid_str[0]);
+      tft_.setCursor(48,88);
+      tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+      tft_.print(canid_str[1]);
+      tft_.setCursor(68,88);
+      tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+      tft_.print(canid_str[2]);
+      tft_.setCursor(87,88);
+      tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+      tft_.print(canid_str[3]);
+      
+      if (is_ext_ty == false)
+      {
+        tft_.setCursor(47,32);
+        tft_.setTextColor(ST77XX_WHITE);
+        tft_.print("STD");
+        delay(200);
+        tft_.setCursor(47,32);
+        tft_.setTextColor(ST77XX_CYAN);
+        tft_.print("STD");
+        delay(200);
+      }
+      else
+      {
+        tft_.setCursor(47,32);
+        tft_.setTextColor(ST77XX_WHITE);
+        tft_.print("EXT");
+        delay(200);
+        tft_.setCursor(47,32);
+        tft_.setTextColor(ST77XX_CYAN);
+        tft_.print("EXT");
+        delay(200);     
+      }
+    }
+    else if(click_count == 1)
+    {
+      if (is_ext_ty == false)
+      {
+        tft_.setCursor(47,32);
+        tft_.setTextColor(ST77XX_WHITE);
+        tft_.print("STD");
+      }
+      else
+      {
+        tft_.setCursor(47,32);
+        tft_.setTextColor(ST77XX_WHITE);
+        tft_.print("EXT");    
+      }      
+              
+      switch(leri_count)
+      {
+        case -1 :
+        tft_.setCursor(28,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[0]);
+        tft_.setCursor(48,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[1]);
+        tft_.setCursor(68,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[2]);
+        tft_.setCursor(87,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[3]);
+        break;
+        case 0:
+        tft_.setCursor(28,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[0]);
+        delay(200);
+        tft_.setCursor(28,88);
+        tft_.setTextColor(ST7735_ORANGE , ST7735_BLACK);
+        tft_.print(canid_str[0]);
+        delay(200);
+        tft_.setCursor(48,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[1]);
+        tft_.setCursor(68,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[2]);
+        tft_.setCursor(87,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[3]);
+        break;
+        case 1:
+        tft_.setCursor(28,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[0]);
+        tft_.setCursor(48,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[1]);
+        delay(200);
+        tft_.setCursor(48,88);
+        tft_.setTextColor(ST7735_ORANGE , ST7735_BLACK);
+        tft_.print(canid_str[1]);
+        delay(200);
+        tft_.setCursor(68,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[2]);
+        tft_.setCursor(87,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[3]);
+        break;
+        case 2:
+        tft_.setCursor(28,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[0]);
+        tft_.setCursor(48,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[1]);
+        tft_.setCursor(68,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[2]);
+        delay(200);
+        tft_.setCursor(68,88);
+        tft_.setTextColor(ST7735_ORANGE , ST7735_BLACK);
+        tft_.print(canid_str[2]);
+        delay(200);
+        tft_.setCursor(87,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[3]);
+        break;
+        case 3:
+        tft_.setCursor(28,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[0]);
+        tft_.setCursor(48,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[1]);
+        tft_.setCursor(68,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[2]);
+        tft_.setCursor(87,88);
+        tft_.setTextColor(ST7735_WHITE , ST7735_BLACK);
+        tft_.print(canid_str[3]);
+        delay(200);
+        tft_.setCursor(87,88);
+        tft_.setTextColor(ST7735_ORANGE , ST7735_BLACK);
+        tft_.print(canid_str[3]);
+        delay(200);
+        break;            
+      }        
+    }       
+  }
+
+  void ST_Display::ST_display_changemode(int updown)
+  {
+    switch(updown)
+    {
+      case -1:
+        tft_.setTextSize(2);
+        tft_.setCursor(10, 5);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);
+        tft_.print("  Config");
+        tft_.setCursor(10, 25);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("  Normal");
+        tft_.setCursor(10, 45);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("  Loopback");  
+        tft_.setCursor(10, 65);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("  Listen");      
+        break;        
+        case 0 :  //set can id
+        tft_.setTextSize(2);
+        tft_.setCursor(10, 5);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);
+        tft_.print("> Config");
+        delay(200);
+        tft_.setCursor(10, 5);
+        tft_.setTextColor(ST7735_BLUE, ST7735_BLACK);
+        tft_.print("> Config");
+        delay(200);
+        tft_.setCursor(10, 25);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("  Normal");
+        tft_.setCursor(10, 45);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("  Loopback");  
+        tft_.setCursor(10, 65);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("  Listen"); 
+        break;        
+        case 1 :  //set can mask filter
+        tft_.setTextSize(2);
+        tft_.setCursor(10, 5);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);
+        tft_.print("  Config");
+        tft_.setCursor(10, 25);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("> Normal");
+        delay(200);
+        tft_.setCursor(10, 25);
+        tft_.setTextColor(ST7735_BLUE, ST7735_BLACK);    
+        tft_.print("> Normal");
+        delay(200);
+        tft_.setCursor(10, 45);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("  Loopback");  
+        tft_.setCursor(10, 65);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("  Listen"); 
+        break;        
+        case 2 : //set change mode
+        tft_.setTextSize(2);
+        tft_.setCursor(10, 5);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);
+        tft_.print("  Config");
+        tft_.setCursor(10, 25);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("  Normal");
+        tft_.setCursor(10, 45);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("> Loopback");
+        delay(200);
+        tft_.setCursor(10, 45);
+        tft_.setTextColor(ST7735_BLUE, ST7735_BLACK);    
+        tft_.print("> Loopback");
+        delay(200);   
+        tft_.setCursor(10, 65);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("  Listen"); 
+        break;                
+        case 3 : //set can monitor
+        tft_.setTextSize(2);
+        tft_.setCursor(10, 5);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);
+        tft_.print("  Config");
+        tft_.setCursor(10, 25);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("  Normal");
+        tft_.setCursor(10, 45);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("  Loopback");  
+        tft_.setCursor(10, 65);
+        tft_.setTextColor(ST7735_WHITE, ST7735_BLACK);    
+        tft_.print("> Listen");
+        delay(200);
+        tft_.setCursor(10, 65);
+        tft_.setTextColor(ST7735_BLUE, ST7735_BLACK);    
+        tft_.print("> Listen");
+        delay(200); 
+        break;      
+    }
+  }
+  
+  void ST_Display::ST_display_setfiltermask(int click_count , int leri_count,String *Filter_str , String *Mask_str)
+  {
+    String f1,f2,f3,f4,m1,m2,m3,m4;    
+    tft_.drawFastHLine(0,23,128,ST7735_WHITE);
+    tft_.drawFastHLine(0,24,128,ST7735_WHITE);
+    tft_.setTextSize(2);        
+    tft_.setCursor(27,3);
+    tft_.setTextColor(ST77XX_WHITE);
+    tft_.print("ID type");
+
+    tft_.drawFastHLine(0,70,128,ST7735_WHITE);
+    tft_.drawFastHLine(0,71,128,ST7735_WHITE);
+    tft_.drawFastHLine(0,94,128,ST7735_WHITE);
+    tft_.drawFastHLine(0,95,128,ST7735_WHITE);
+    tft_.setTextSize(2);        
+    tft_.setCursor(25,76);
+    tft_.setTextColor(ST77XX_WHITE);
+    tft_.print("CAN ID");
+    
+    //上半部方框
+    tft_.drawFastHLine(22,36,78,ST7735_WHITE);
+    tft_.drawFastHLine(22,56,78,ST7735_WHITE);
+    
+    tft_.drawFastVLine(22,36,20,ST7735_WHITE);
+    tft_.drawFastVLine(42,36,20,ST7735_WHITE);
+    tft_.drawFastVLine(62,36,20,ST7735_WHITE);
+    tft_.drawFastVLine(82,36,20,ST7735_WHITE);
+    tft_.drawFastVLine(100,36,20,ST7735_WHITE);
+    
+    //下半部方框
+    tft_.drawFastHLine(22,105,78,ST7735_WHITE);
+    tft_.drawFastHLine(22,125,78,ST7735_WHITE);
+    
+    tft_.drawFastVLine(22,105,20,ST7735_WHITE);
+    tft_.drawFastVLine(42,105,20,ST7735_WHITE);
+    tft_.drawFastVLine(62,105,20,ST7735_WHITE);
+    tft_.drawFastVLine(82,105,20,ST7735_WHITE);
+    tft_.drawFastVLine(100,105,20,ST7735_WHITE);
+
+    if(click_count == -1) //default status display
+    {
+      tft_.setTextSize(2);        
+      tft_.setCursor(28,39);
+      tft_.setTextColor(ST77XX_WHITE);
+      tft_.print("0");
+      tft_.setTextSize(2);        
+      tft_.setCursor(48,39);
+      tft_.setTextColor(ST77XX_WHITE);
+      tft_.print("0");
+      tft_.setTextSize(2);        
+      tft_.setCursor(68,39);
+      tft_.setTextColor(ST77XX_WHITE);
+      tft_.print("0");
+      tft_.setTextSize(2);        
+      tft_.setCursor(87,39);
+      tft_.setTextColor(ST77XX_WHITE);
+      tft_.print("0");
+      tft_.setTextSize(2);        
+      tft_.setCursor(28,108);
+      tft_.setTextColor(ST77XX_WHITE);
+      tft_.print("0");
+      tft_.setTextSize(2);        
+      tft_.setCursor(48,108);
+      tft_.setTextColor(ST77XX_WHITE);
+      tft_.print("0");
+      tft_.setTextSize(2);        
+      tft_.setCursor(68,108);
+      tft_.setTextColor(ST77XX_WHITE);
+      tft_.print("0");
+      tft_.setTextSize(2);        
+      tft_.setCursor(87,108);
+      tft_.setTextColor(ST77XX_WHITE);
+      tft_.print("0");      
+    }
+    else if(click_count == 0) //set mask display
+    {
+      //Mask
+      switch(leri_count)
+      {
+        //Filter 
+        tft_.setTextSize(2);        
+        tft_.setCursor(28,108);
+        tft_.setTextColor(ST77XX_WHITE);
+        tft_.print("0");
+        tft_.setTextSize(2);        
+        tft_.setCursor(48,108);
+        tft_.setTextColor(ST77XX_WHITE);
+        tft_.print("0");
+        tft_.setTextSize(2);        
+        tft_.setCursor(68,108);
+        tft_.setTextColor(ST77XX_WHITE);
+        tft_.print("0");
+        tft_.setTextSize(2);        
+        tft_.setCursor(87,108);
+        tft_.setTextColor(ST77XX_WHITE);
+        tft_.print("0"); 
+        //Mask        
+        case -1:
+          tft_.setTextSize(2);        
+          tft_.setCursor(28,39);
+          tft_.setTextColor(ST77XX_WHITE , ST7735_BLACK);
+          tft_.print(Mask_str[0]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(48,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[1]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(68,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[2]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(87,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[3]);        
+          break;
+        case 0 :
+          tft_.setTextSize(2);        
+          tft_.setCursor(28,39);
+          tft_.setTextColor(ST77XX_WHITE , ST7735_BLACK);
+          tft_.print(Mask_str[0]);
+          delay(200);
+          tft_.setTextSize(2);        
+          tft_.setCursor(28,39);
+          tft_.setTextColor(ST7735_ORANGE , ST7735_BLACK);
+          tft_.print(Mask_str[0]);
+          delay(200);          
+          tft_.setTextSize(2);        
+          tft_.setCursor(48,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[1]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(68,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[2]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(87,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[3]);
+          m1 = Mask_str[0];  
+          break;
+        case 1 :
+          tft_.setTextSize(2);        
+          tft_.setCursor(28,39);
+          tft_.setTextColor(ST77XX_WHITE , ST7735_BLACK);
+          tft_.print(Mask_str[0]);       
+          tft_.setTextSize(2);        
+          tft_.setCursor(48,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[1]);
+          delay(200);
+          tft_.setTextSize(2);        
+          tft_.setCursor(48,39);
+          tft_.setTextColor(ST7735_ORANGE, ST7735_BLACK);
+          tft_.print(Mask_str[1]);
+          delay(200);
+          tft_.setTextSize(2);        
+          tft_.setCursor(68,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[2]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(87,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[3]);
+          m2 = Mask_str[1]; 
+        break;
+        case 2 :
+          tft_.setTextSize(2);        
+          tft_.setCursor(28,39);
+          tft_.setTextColor(ST77XX_WHITE , ST7735_BLACK);
+          tft_.print(Mask_str[0]);       
+          tft_.setTextSize(2);        
+          tft_.setCursor(48,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[1]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(68,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[2]);
+          delay(200);
+          tft_.setTextSize(2);        
+          tft_.setCursor(68,39);
+          tft_.setTextColor(ST7735_ORANGE, ST7735_BLACK);
+          tft_.print(Mask_str[2]);
+          delay(200);
+          tft_.setTextSize(2);        
+          tft_.setCursor(87,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[3]);
+          m3 = Mask_str[2]; 
+        break;
+        case 3:
+          tft_.setTextSize(2);        
+          tft_.setCursor(28,39);
+          tft_.setTextColor(ST77XX_WHITE , ST7735_BLACK);
+          tft_.print(Mask_str[0]);       
+          tft_.setTextSize(2);        
+          tft_.setCursor(48,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[1]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(68,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[2]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(87,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Mask_str[3]);
+          delay(200);
+          tft_.setTextSize(2);        
+          tft_.setCursor(87,39);
+          tft_.setTextColor(ST7735_ORANGE, ST7735_BLACK);
+          tft_.print(Mask_str[3]);
+          delay(200);
+          m4 = Mask_str[3];          
+        break;
+      }                   
+    }
+    else if(click_count == 1) //set filter display
+    {
+      switch(leri_count)
+      {
+        //Filter 
+        tft_.setTextSize(2);        
+        tft_.setCursor(28,108);
+        tft_.setTextColor(ST77XX_WHITE);
+        tft_.print(m1);
+        tft_.setTextSize(2);        
+        tft_.setCursor(48,108);
+        tft_.setTextColor(ST77XX_WHITE);
+        tft_.print(m2);
+        tft_.setTextSize(2);        
+        tft_.setCursor(68,108);
+        tft_.setTextColor(ST77XX_WHITE);
+        tft_.print(m3);
+        tft_.setTextSize(2);        
+        tft_.setCursor(87,108);
+        tft_.setTextColor(ST77XX_WHITE);
+        tft_.print(m4);
+        case -1:
+          tft_.setTextSize(2);        
+          tft_.setCursor(28,39);
+          tft_.setTextColor(ST77XX_WHITE , ST7735_BLACK);
+          tft_.print(Filter_str[0]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(48,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[1]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(68,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[2]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(87,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[3]); 
+        break;
+        case 0 :
+          tft_.setTextSize(2);        
+          tft_.setCursor(28,39);
+          tft_.setTextColor(ST77XX_WHITE , ST7735_BLACK);
+          tft_.print(Filter_str[0]);
+          delay(200);
+          tft_.setTextSize(2);        
+          tft_.setCursor(28,39);
+          tft_.setTextColor(ST7735_ORANGE , ST7735_BLACK);
+          tft_.print(Filter_str[0]);
+          delay(200);          
+          tft_.setTextSize(2);        
+          tft_.setCursor(48,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[1]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(68,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[2]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(87,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[3]);
+          f1 = Filter_str[0];
+        break;
+        case 1 :
+          tft_.setTextSize(2);        
+          tft_.setCursor(28,39);
+          tft_.setTextColor(ST77XX_WHITE , ST7735_BLACK);
+          tft_.print(Filter_str[0]);       
+          tft_.setTextSize(2);        
+          tft_.setCursor(48,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[1]);
+          delay(200);
+          tft_.setTextSize(2);        
+          tft_.setCursor(48,39);
+          tft_.setTextColor(ST7735_ORANGE, ST7735_BLACK);
+          tft_.print(Filter_str[1]);
+          delay(200);
+          tft_.setTextSize(2);        
+          tft_.setCursor(68,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[2]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(87,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[3]);
+          f2 = Filter_str[1]; 
+        break;
+        case 2 :
+          tft_.setTextSize(2);        
+          tft_.setCursor(28,39);
+          tft_.setTextColor(ST77XX_WHITE , ST7735_BLACK);
+          tft_.print(Filter_str[0]);       
+          tft_.setTextSize(2);        
+          tft_.setCursor(48,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[1]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(68,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[2]);
+          delay(200);
+          tft_.setTextSize(2);        
+          tft_.setCursor(68,39);
+          tft_.setTextColor(ST7735_ORANGE, ST7735_BLACK);
+          tft_.print(Filter_str[2]);
+          delay(200);
+          tft_.setTextSize(2);        
+          tft_.setCursor(87,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[3]);
+          f3 = Filter_str[2]; 
+        break;
+        case 3:
+          tft_.setTextSize(2);        
+          tft_.setCursor(28,39);
+          tft_.setTextColor(ST77XX_WHITE , ST7735_BLACK);
+          tft_.print(Filter_str[0]);       
+          tft_.setTextSize(2);        
+          tft_.setCursor(48,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[1]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(68,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[2]);
+          tft_.setTextSize(2);        
+          tft_.setCursor(87,39);
+          tft_.setTextColor(ST77XX_WHITE, ST7735_BLACK);
+          tft_.print(Filter_str[3]);
+          delay(200);
+          tft_.setTextSize(2);        
+          tft_.setCursor(87,39);
+          tft_.setTextColor(ST7735_ORANGE, ST7735_BLACK);
+          tft_.print(Filter_str[3]);
+          delay(200);
+          f4 = Filter_str[3];
+        break;
+      }          
+    }
+
+  }
+
+  
 }

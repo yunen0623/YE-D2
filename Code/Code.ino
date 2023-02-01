@@ -6,7 +6,7 @@ dateandtime::dateandtime dt;
 mcp_2515::mcp_2515_base mcp;
 uint8_t arr[8] = {5,6,7,8,1,2,3,4};
 int test = 0;
-
+String strtest[4] = {"0" , "A" , "B" , "D"};
 // /**core control test**/
 // #include "main_control.h"
 // control::controller ct;
@@ -39,8 +39,11 @@ void loop() {
   // mcp.mcp_2515_rececanframe();
   
   // st_display.ST_display_cansubmenu(test);
-  st_display.ST_display_cannonitor(test,"0x1234","8",arr, "0x0000","0x0000");
+  // st_display.ST_display_setcanid(-1 , 3,false , strtest);
+  st_display.ST_display_setfiltermask(-1 , 1 ,strtest , strtest);  
   Serial.println(test);
+
+
   /**core control test**/
   // ct.core_controller();
 }

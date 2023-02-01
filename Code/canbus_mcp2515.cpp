@@ -69,27 +69,26 @@ void mcp_2515_base::mcp_2515_init(int bitrate_mode)
    @param dlc data len (max is 8 bytes)
    @param dataarr the data pointer
 */
-void mcp_2515_base::mcp_2515_set_canframe(int type , canid_t can_id_ , uint8_t dlc , uint8_t *dataarr )
+void mcp_2515_base::mcp_2515_set_sendcanframe(int type , canid_t can_id_ , uint8_t dlc , uint8_t *dataarr )
 {
   if (type == 0)
   {
-    frame_.can_id = can_id_;
+    frame_send_.can_id = can_id_;
     can_type_ = 0;
   }
   else
   {
-    frame_.can_id = can_id_ | CAN_EFF_FLAG;
+    frame_send_.can_id = can_id_ | CAN_EFF_FLAG;
     can_type_ = 1;
   }
 
 
-  frame_.can_dlc = dlc;
+  frame_send_.can_dlc = dlc;
   for (int i = 0 ; i < dlc ; i++)
   {
-    frame_.data[i] = dataarr[i];
+    frame_rece_.data[i] = dataarr[i];
   }
 }
-
 
 /**
    @brief
@@ -160,7 +159,7 @@ uint32_t mcp_2515_base::convertStrtoLong(const char *s)
 */
 MCP2515::ERROR mcp_2515_base::mcp_2515_sendcanframe()
 {
-  return mcp2515_.sendMessage(&frame_);
+  return mcp2515_.sendMessage(&frame_send_);
 }
 /**
    @brief
@@ -168,7 +167,7 @@ MCP2515::ERROR mcp_2515_base::mcp_2515_sendcanframe()
 */
 can_frame mcp_2515_base::mcp_2515_rececanframe()
 {
-  if (mcp2515_.readMessage(&frame_) == MCP2515::ERROR_OK)
+  if (mcp2515_.readMessage(&frame_rece_) == MCP2515::ERROR_OK)
   {
     Serial.println("Receive Messages");
     if (can_type_ == 0 )
@@ -176,17 +175,17 @@ can_frame mcp_2515_base::mcp_2515_rececanframe()
     else
       Serial.println("CAN-Type : EXT");
     Serial.print("CAN ID : ");
-    Serial.println(frame_.can_id , HEX);
+    Serial.println(frame_rece_.can_id , HEX);
     Serial.print("CAN DLC : ");
-    Serial.println(frame_.can_dlc , HEX);
+    Serial.println(frame_rece_.can_dlc , HEX);
     Serial.print("CAN Data : ");
-    for (int i = 0 ; i < frame_.can_dlc ; i++)
+    for (int i = 0 ; i < frame_rece_.can_dlc ; i++)
     {
-      Serial.print( frame_.data[i] , HEX);
+      Serial.print( frame_rece_.data[i] , HEX);
       Serial.print(" ");
     }
     Serial.println("");
-    return frame_;
+    return frame_rece_;
   }
 }
 /**

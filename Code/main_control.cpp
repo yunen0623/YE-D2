@@ -12,7 +12,6 @@ namespace control
       pinMode(controller::midbtn_, INPUT_PULLUP);
       pinMode(controller::setbtn_, INPUT_PULLUP);
       pinMode(controller::resetbtn_, INPUT_PULLUP);
-      
     }
 
     void controller::core_init()
@@ -45,10 +44,10 @@ namespace control
 
       if(digitalRead(controller::leftbtn_) == LOW)
       {
-        if(controller::leftright_count_ != -1)
+        if(controller::leftright_count_ != 0)
           leftright_count_ -=1;
         else
-          leftright_count_ = -1;                              
+          leftright_count_ = 0;                              
       }
 
       if(digitalRead(controller::rightbtn_) == LOW)
@@ -66,20 +65,38 @@ namespace control
       {
         controller::read_controller_single();
         if(leftright_count_ == 0)
-          str1 = hexstr[updown_count_];                            
+        {
+          str1 = hexstr[updown_count_];
+          temp_[0] = hexstr[updown_count_];
+        }                            
         else if(leftright_count_ == 1)
+        {
           str2 = hexstr[updown_count_];
+          temp_[1] = hexstr[updown_count_];
+        } 
         else if(leftright_count_ == 2)
+        {
           str3 = hexstr[updown_count_];
+          temp_[2] = hexstr[updown_count_];
+        } 
         else if(leftright_count_ ==3)
+        {
           str4 = hexstr[updown_count_];
+          temp_[3] = hexstr[updown_count_];
+        } 
                 
-        if(controller::is_click_mid_ == true)
+        if(controller::is_click_mid_ == true && leftright_count_ == 3)
         {
           res_str = str1 + str2 + str3 +str4 ;
           const char *cstr =  res_str.c_str();   
           controller::mcp_.mcp_2515_set_Mask(MCP2515::MASK0 , is_ext_type_ , controller::mcp_.convertStrtoLong(cstr));
-          controller::set_mask_id_ = controller::mcp_.convertStrtoLong(cstr);                   
+          controller::set_mask_id_ = controller::mcp_.convertStrtoLong(cstr); 
+          leftright_count_ = 0;
+          updown_count_ = 0;  
+          temp_[0] = "0";
+          temp_[1] = "0";
+          temp_[2] = "0";
+          temp_[3] = "0";                
           setting_ok_++;
           break;          
         } 
@@ -88,20 +105,36 @@ namespace control
       { 
         controller::read_controller_single();       
         if(leftright_count_ == 0)
-          str1 = hexstr[updown_count_];                            
+        {
+          str1 = hexstr[updown_count_];
+          temp_[0] = hexstr[updown_count_];
+        }                            
         else if(leftright_count_ == 1)
+        {
           str2 = hexstr[updown_count_];
+          temp_[1] = hexstr[updown_count_];
+        } 
         else if(leftright_count_ == 2)
+        {
           str3 = hexstr[updown_count_];
+          temp_[2] = hexstr[updown_count_];
+        } 
         else if(leftright_count_ ==3)
+        {
           str4 = hexstr[updown_count_];
-        if(controller::is_click_mid_ == true)
+          temp_[3] = hexstr[updown_count_];
+        } 
+        if(controller::is_click_mid_ == true && leftright_count_ == 3)
         {
           res_str = str1 + str2 + str3 +str4 ;
           const char *cstr =  res_str.c_str();   
           controller::mcp_.mcp_2515_set_Filter(MCP2515::RXF0 ,is_ext_type_ , controller::mcp_.convertStrtoLong(cstr));
           controller::set_filter_id_ = controller::mcp_.convertStrtoLong(cstr);            
           setting_ok_ = 0;
+          temp_[0] = "0";
+          temp_[1] = "0";
+          temp_[2] = "0";
+          temp_[3] = "0";
           controller::subcanmode_ = SUB_CAN_MODE::can_None; 
           break;         
         }       
@@ -126,29 +159,46 @@ namespace control
           is_ext_type_ = true;
           type = 1;
         }
-        if(controller::is_click_mid_ == true)
+        if(controller::is_click_mid_ == true&& leftright_count_ == 3)
         { 
+          leftright_count_ = 0;
+          updown_count_ = 0;
           setting_ok_++;
           break;          
         }                      
       }           
-      while(controller::setting_ok_ == 1)
+      while(controller::setting_ok_ == 1) 
       {
         controller::read_controller_single();
         if(leftright_count_ == 0)
-          str1 = hexstr[updown_count_];                            
+        {
+          str1 = hexstr[updown_count_];
+          temp_[0] = hexstr[updown_count_];
+        }                            
         else if(leftright_count_ == 1)
+        {
           str2 = hexstr[updown_count_];
+          temp_[1] = hexstr[updown_count_];
+        } 
         else if(leftright_count_ == 2)
+        {
           str3 = hexstr[updown_count_];
+          temp_[2] = hexstr[updown_count_];
+        } 
         else if(leftright_count_ ==3)
+        {
           str4 = hexstr[updown_count_];
-        if(controller::is_click_mid_ == true)
+          temp_[3] = hexstr[updown_count_];
+        } 
+        if(controller::is_click_mid_ == true&& leftright_count_ == 3)
         {        
           res_str = str1 + str2 + str3 +str4 ;
           const char *cstr =  res_str.c_str();           
-          controller::mcp_.mcp_2515_set_canframe(type , controller::mcp_.convertStrtoLong(cstr) , 8 , default_data );
-          controller::set_can_id_ = controller::mcp_.convertStrtoLong(cstr);
+          controller::mcp_.mcp_2515_set_sendcanframe(type , controller::mcp_.convertStrtoLong(cstr) , 8 , default_data ); 
+          temp_[0] = "0";
+          temp_[1] = "0";
+          temp_[2] = "0";
+          temp_[3] = "0";
           setting_ok_ = 0;
           controller::subcanmode_ = SUB_CAN_MODE::can_None; 
           break;        
@@ -159,7 +209,7 @@ namespace control
     void controller::set_canmode_btn(int &modee)
     {        
       modee = updown_count_;
-      if(controller::is_click_mid_ == true)
+      if(controller::is_click_mid_ == true && updown_count_ != -1)
       {
         controller::mcp_.mcp_2515_changemode(modee);
         modee = 0;
@@ -178,12 +228,18 @@ namespace control
           dt.get_weather();
           st_display.ST_display_Weather(dt.temp , dt.h ,dt.weather);
           if(controller::is_click_mid_ == true)
-            controller::allmode_ = ALL_MODE::ds_menu;          
+          {
+            controller::allmode_ = ALL_MODE::ds_menu;
+            st_display.ST_display_clear();
+          }                
         break;
                 
         case ALL_MODE::ds_None :
           if(controller::is_click_mid_ == true)
-            controller::allmode_ = ALL_MODE::ds_menu;          
+          {
+            controller::allmode_ = ALL_MODE::ds_menu;
+            st_display.ST_display_clear();            
+          }                    
         break;
         
         case ALL_MODE::ds_menu:
@@ -192,6 +248,7 @@ namespace control
             if(controller::is_click_mid_ == true)
             {
               controller::allmode_ = ALL_MODE::ds_clock;
+              st_display.ST_display_clear(); 
               controller::updown_count_ = -1;                              
             }                   
           }          
@@ -200,6 +257,7 @@ namespace control
             if(controller::is_click_mid_ == true)
             {
               controller::allmode_ = ALL_MODE::ds_canbus;
+              st_display.ST_display_clear(); 
               controller::updown_count_ = -1;               
             }              
           }
@@ -209,21 +267,25 @@ namespace control
           if(controller::updown_count_ == 0 && controller::is_click_mid_ == true && controller::subcanmode_ == SUB_CAN_MODE::can_None)
           {
             controller::subcanmode_ = SUB_CAN_MODE::can_frame_id_type;
+            st_display.ST_display_clear(); 
             controller::updown_count_ = -1;            
           }
           else if(controller::updown_count_ == 1 && controller::is_click_mid_ == true && controller::subcanmode_ == SUB_CAN_MODE::can_None)
           {
             controller::subcanmode_ = SUB_CAN_MODE::can_setfilterandmask;
+            st_display.ST_display_clear(); 
             controller::updown_count_ = -1;                          
           }
           else if(controller::updown_count_ == 2 && controller::is_click_mid_ == true && controller::subcanmode_ == SUB_CAN_MODE::can_None)
           {
             controller::subcanmode_ = SUB_CAN_MODE::can_changemode;
+            st_display.ST_display_clear(); 
             controller::updown_count_ = -1;                          
           }
           else if(controller::updown_count_ == 3 && controller::is_click_mid_ == true && controller::subcanmode_ == SUB_CAN_MODE::can_None)
           {
             controller::subcanmode_ = SUB_CAN_MODE::can_Monitor;
+            st_display.ST_display_clear();             
             controller::updown_count_ = -1;
             controller::leftright_count_ = -1;                          
           }
@@ -246,10 +308,11 @@ namespace control
                 controller::mcp_.mcp_2515_sendcanframe();                                     
               }
               else if(leftright_count_ == 1 && is_click_mid_ == true) //back to menu
-              {                                    
+              { 
+                st_display.ST_display_clear();  
+                controller::subcanmode_ = SUB_CAN_MODE::can_None;                                  
                 updown_count_ = -1 ;                
-                leftright_count_ = -1;
-                controller::subcanmode_ = SUB_CAN_MODE::can_None;
+                leftright_count_ = -1;     
               }                                            
               break;
           }

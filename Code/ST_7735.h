@@ -26,6 +26,9 @@ namespace ST_7735
       void ST_display_RGBimage(int x , int y,int h ,int w ,const unsigned char *img);
       void ST_display_menu(int &menu_index);
       void ST_display_cansubmenu(int &menu_index);
+      void ST_display_setcanid(int click_count , int leri_count,bool is_ext_ty , String *canid_str);
+      void ST_display_changemode(int mode);
+      void ST_display_setfiltermask(int click_count , int leri_count,String *Filter_str , String *Mask_str);
       void ST_display_cannonitor(int &menu_index , String can_id , String dlc , uint8_t *can_data , String can_filter , String can_mask);
       void ST_display_clear();
     private:

@@ -11,7 +11,7 @@ namespace mcp_2515
       mcp_2515_base();
       ~mcp_2515_base(){delete hspi;};
       void mcp_2515_init(int bitrate_mode);
-      void mcp_2515_set_canframe(int type , canid_t can_id_ , uint8_t dlc ,uint8_t *dataarr );
+      void mcp_2515_set_sendcanframe(int type , canid_t can_id_ , uint8_t dlc ,uint8_t *dataarr );
       void mcp_2515_changemode(int mode_);
       uint32_t convertStrtoLong(const char *s);
       MCP2515::ERROR mcp_2515_sendcanframe();
@@ -28,7 +28,8 @@ namespace mcp_2515
       static const int spiClk = 1000000; //1Mhz
       SPIClass * hspi = NULL;
       MCP2515 mcp2515_;
-      struct can_frame frame_;
+      struct can_frame frame_send_; //for send
+      struct can_frame frame_rece_; //for rece
       int can_type_ = 0;
       bool is_configmode_ = true;
       
