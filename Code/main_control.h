@@ -1,3 +1,4 @@
+#include "WString.h"
 #include "stdint.h"
 #include "Arduino.h"
 #include "canbus_mcp2515.h"
@@ -32,18 +33,34 @@ namespace control
       can_backmenu
   };
 
-  
+
     class controller
     {
       public:
+        
         controller();
         ~controller(){};
+        
         void read_controller_single();
         void core_controller();
         uint32_t set_filtermask_btn();
         uint32_t set_canidandtype_btn();
         void set_canmode_btn(int &modee);
-        void core_init();
+        void core_init();   
+
+        void set_upcount();
+        void set_downcount();
+        void set_leftcount();
+        void set_rightcount();
+        void set_midcount(bool click);
+        
+        ALL_MODE get_ALLMode(){return allmode_;}
+        SUB_CAN_MODE get_SubCanMode(){return subcanmode_;}
+        CAN_Mointor_Func getCANMointor(){return canmointorfunc_;}
+
+        int get_upanddowncount(){return updown_count_;}
+        int get_leftandrightcount(){return leftright_count_;}
+        int get_midcount(){return setting_ok_;}
         
       private:
         const int upbtn_ =  27;
@@ -64,7 +81,7 @@ namespace control
         int can_mode_ = -1; //MCP2515模式 0 1 2 3     
         int can_type_choose = -1; //choose std or ext type
         int setting_ok_ = 0; //check type , id / filter , mask is setting ok 
-        uint8_t default_data[8]= {8,7,6,5,3,1,7,8};
+        uint8_t default_data[8]= {0x08,0x07,0x06,0x05,0x03,0x01,0x07,0x08};
         bool is_ext_type_ = false;  
         int dlc_ = 8;
         MCP2515::RXF rxfid_;
@@ -72,14 +89,16 @@ namespace control
 
         uint32_t set_filter_id_ = 0x0000;
         uint32_t set_mask_id_ = 0x0000;
-        
+        String filter_id_str_ , mask_id_str_ = "";
         mcp_2515::mcp_2515_base mcp_;
         ST_7735::ST_Display st_display;
         dateandtime::dateandtime dt;
         String temp_[4] = {"0","0","0","0"};
         struct can_frame frame_rece_; //for read candata frame            
         const String hexstr[16] = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
-        
-              
+               
+        String str1 , str2 , str3 , str4 , res_str , temp_str = "" ;
+        int type = 0;       
+        bool flag_ = false;
     };
 }

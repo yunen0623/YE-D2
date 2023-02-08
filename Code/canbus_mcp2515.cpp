@@ -1,3 +1,4 @@
+#include "WString.h"
 #include "stdint.h"
 #include "canbus_mcp2515.h"
 
@@ -6,7 +7,7 @@ namespace mcp_2515
 {
 mcp_2515_base::mcp_2515_base():
   hspi{new SPIClass(HSPI)} ,
-     mcp2515_{mcp2515_CS_ , spiClk , hspi}
+  mcp2515_{mcp2515_CS_ , spiClk , hspi}
 {
   hspi->begin();
 }
@@ -86,7 +87,7 @@ void mcp_2515_base::mcp_2515_set_sendcanframe(int type , canid_t can_id_ , uint8
   frame_send_.can_dlc = dlc;
   for (int i = 0 ; i < dlc ; i++)
   {
-    frame_rece_.data[i] = dataarr[i];
+    frame_send_.data[i] = dataarr[i];
   }
 }
 
@@ -105,19 +106,27 @@ void mcp_2515_base::mcp_2515_changemode(int mode_)
   {
     case 0 :
       mcp2515_.setConfigMode();
-      mcp_2515_base::is_configmode_ = true;            
+      mcp_2515_base::is_configmode_ = true;
+      Serial.println("config flag : " + String(is_configmode_));  
+      Serial.println("is config mode");          
       break;
     case 1 :
       mcp2515_.setNormalMode();
       mcp_2515_base::is_configmode_ = false;
+      Serial.println("config flag : " + String(is_configmode_));  
+      Serial.println("is Normal mode");
       break;
     case 2 :
       mcp2515_.setLoopbackMode();
       mcp_2515_base::is_configmode_ = false;
+      Serial.println("config flag : " + String(is_configmode_));  
+      Serial.println("is loopback mode");
       break;
     case 3 :
       mcp2515_.setListenOnlyMode();
       mcp_2515_base::is_configmode_ = false;
+      Serial.println("config flag : " + String(is_configmode_));  
+      Serial.println("is listenonly mode");
       break;
   }
 }
@@ -167,7 +176,7 @@ MCP2515::ERROR mcp_2515_base::mcp_2515_sendcanframe()
 */
 can_frame mcp_2515_base::mcp_2515_rececanframe()
 {
-  if (mcp2515_.readMessage(&frame_rece_) == MCP2515::ERROR_OK)
+  if (mcp2515_.readMessage(&frame_send_) == MCP2515::ERROR_OK)
   {
     Serial.println("Receive Messages");
     if (can_type_ == 0 )
@@ -175,18 +184,21 @@ can_frame mcp_2515_base::mcp_2515_rececanframe()
     else
       Serial.println("CAN-Type : EXT");
     Serial.print("CAN ID : ");
-    Serial.println(frame_rece_.can_id , HEX);
+    Serial.println(frame_send_.can_id , HEX);
     Serial.print("CAN DLC : ");
-    Serial.println(frame_rece_.can_dlc , HEX);
+    Serial.println(frame_send_.can_dlc , HEX);
     Serial.print("CAN Data : ");
-    for (int i = 0 ; i < frame_rece_.can_dlc ; i++)
+    for (int i = 0 ; i < frame_send_.can_dlc ; i++)
     {
-      Serial.print( frame_rece_.data[i] , HEX);
+      Serial.print( frame_send_.data[i] , HEX);
       Serial.print(" ");
     }
     Serial.println("");
-    return frame_rece_;
+    return frame_send_;
   }
+  else {
+  return frame_send_;
+  }  
 }
 /**
   @param RXF_nun is RXFilter num 0-5

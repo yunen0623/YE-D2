@@ -37,6 +37,7 @@ namespace ST_7735
       const int ST_CS_ = 5;   //CS 15
       const int ST_DC_ = 2;   //ST7735 A0 35
       const int ST_RST_ = 4;   //RST Pin  4
+      void append(char* s, char* buffer);
       Adafruit_ST7735 tft_;
   };
 }

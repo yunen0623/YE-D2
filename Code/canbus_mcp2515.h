@@ -16,8 +16,9 @@ namespace mcp_2515
       uint32_t convertStrtoLong(const char *s);
       MCP2515::ERROR mcp_2515_sendcanframe();
       can_frame mcp_2515_rececanframe();
-      MCP2515::ERROR mcp_2515_set_Filter(MCP2515::RXF RXF_num ,bool is_ext , uint32_t ulData);
-      MCP2515::ERROR mcp_2515_set_Mask(MCP2515::MASK mask , bool is_ext , uint32_t ulData);
+      MCP2515::ERROR get_readStatus(){return mcp2515_.readMessage(&frame_send_);};
+      MCP2515::ERROR mcp_2515_set_Filter(MCP2515::RXF RXF_num ,bool is_ext , uint32_t ulData = 0x0000);
+      MCP2515::ERROR mcp_2515_set_Mask(MCP2515::MASK mask , bool is_ext , uint32_t ulData = 0x0000);
       bool get_configflag(){return is_configmode_;};
       
     private:
