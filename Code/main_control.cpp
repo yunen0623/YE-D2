@@ -878,14 +878,15 @@ namespace control
               break;          
               
             case SUB_CAN_MODE::can_Monitor:
-              Serial.println(String(frame_rece_.can_id));            
+              // Serial.println(String(frame_rece_.can_id));            
               if(mcp_.get_readStatus() == MCP2515::ERROR_OK)
               {
+                Serial.println("Read Frame Success!");
                 frame_rece_ = controller::mcp_.mcp_2515_rececanframe();  //always receive message               
               }
               char outputString[9];
               itoa(frame_rece_.can_id, outputString, 16);   
-              Serial.println("Convert :" + String(outputString));                          
+              // Serial.println("Convert :" + String(outputString));                          
               st_display.ST_display_cannonitor(leftright_count_ , outputString , String(frame_rece_.can_dlc) , frame_rece_.data , filter_id_str_ , mask_id_str_);
               
                             
