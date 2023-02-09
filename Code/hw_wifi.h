@@ -18,14 +18,14 @@ namespace hw_wifi
       private:
         
           int wifi_scan_ = 0;
-          const char *ssid_ = "307";    
-          const char *password_ = "0912222363"; 
+          const char *ssid_ = "---";    
+          const char *password_ = "---"; 
          
-          const char *homessid_ = "MY HOME";    
-          const char *homepassword_ = "0932326831";
+          const char *homessid_ = "---";    
+          const char *homepassword_ = "---";
           
-          const char *canpanyssid_ = "USUN_NEWGuest";    
-          const char *canpanypassword_ = "Usun3498"; 
+          const char *canpanyssid_ = "---";    
+          const char *canpanypassword_ = "---"; 
          
           bool is_connect_ = false;
           bool is_timeout_ = false;
